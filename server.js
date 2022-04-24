@@ -12,6 +12,7 @@ const connectDB = require('./db/connect')
 
 // routers
 const authRouter = require('./routes/authRoutes')
+const userRouter = require('./routes/userRoutes') //ADMIN USER managment RIVINDU
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -21,6 +22,7 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 app.use('/api/v1/auth', authRouter)
+app.use('/users', userRouter)//ADMIN USER managment RIVINDU
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
