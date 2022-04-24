@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 50,
   },
+  regNo: {
+    type: 'String',
+    required: [true, 'Please provide regNo'],
+  },
   email: {
     type: String,
     unique: true,
