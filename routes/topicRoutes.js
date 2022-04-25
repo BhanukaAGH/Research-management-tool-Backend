@@ -12,7 +12,7 @@ const {
   getSingleTopic,
   updateTopic,
   deleteTopic,
-} = require('../controllers/studentController')
+} = require('../controllers/topicController')
 
 router
   .route('/')
