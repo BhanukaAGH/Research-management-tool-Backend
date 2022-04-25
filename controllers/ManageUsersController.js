@@ -40,7 +40,7 @@ const list = async (req, res) => {//get all users
 
   }
 
-  const Update = async (req, res) => { //Update User
+  const Update = async (req, res) => { //Update 1 User
 
     const filter = { _id:req.params.id};
     const update = { name:req.body.name,
@@ -58,7 +58,7 @@ const list = async (req, res) => {//get all users
     }
 
   }
-  const Delete = async (req, res) => { //Delete User  
+  const Delete = async (req, res) => { //Delete 1 User  
 
     const Document = await User.deleteOne({_id: req.params.id});
     res.json({Document})
@@ -69,5 +69,16 @@ const list = async (req, res) => {//get all users
   
 
   }
- 
-module.exports={list,find1,Update,Delete}
+
+  const DeleteM = async (req, res) => { //Delete many Users
+    
+    let arr = req.params.ids.split(',');
+
+    console.log(arr);
+    const Document=await User.deleteMany({'_id':{'$in':arr}});
+    res.json(Document);
+    if (Document.acknowledged){
+        console.log("Delete successfull");
+    }else{console.log("Delete Failed");}
+  }
+module.exports={list,find1,Update,Delete,DeleteM}
