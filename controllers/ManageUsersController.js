@@ -1,42 +1,22 @@
 const User = require('../models/User')
+const CustomError = require('../errors')
 
-
-
-/*const list=async (res)=>{
-    try {
-        var data = [];
-        data= await User.find({})
-        console.log(data);
-    } catch (error) {
-        console.log(error);
-    }
-
-   
-   await User.find({}).toArray(function (err, result) {
-       
-       if (err) throw err;
-       res.json(result);
-       
-     });
-
-     
-}*/
 const list = async (req, res) => {//get all users
-    var user = [];
-    user = await User.find({})
+
+    const user=await User.find({})
     if (!user) {
       throw new CustomError.UnauthenticatedError('No Users In the DB')
-    }
-    res.json({ user })
+   }
+    res.json(user) 
   }
 
   const find1 = async (req, res) => { //Find one user by ID
-    var user1 = await User.findOne({_id: req.params.id})
+    const user1 = await User.findOne({_id: req.params.id})
     if (!user1) {
         throw new CustomError.UnauthenticatedError('No  Users with ID In the DB')
       }
-      res.json({user1})
-      console.log(user1)
+      res.json(user1)
+      //console.log(user1)
 
   }
 
@@ -74,7 +54,7 @@ const list = async (req, res) => {//get all users
     
     let arr = req.params.ids.split(',');
 
-    console.log(arr);
+    //console.log(arr);
     const Document=await User.deleteMany({'_id':{'$in':arr}});
     res.json(Document);
     if (Document.acknowledged){
