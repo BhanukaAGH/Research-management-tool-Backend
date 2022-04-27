@@ -52,7 +52,7 @@ const list = async (req, res) => {//get all users
 
   const DeleteM = async (req, res) => { //Delete many Users
     
-    let arr = req.params.ids.split(',');
+    const arr = req.params.ids.split(',');
 
     //console.log(arr);
     const Document=await User.deleteMany({'_id':{'$in':arr}});
