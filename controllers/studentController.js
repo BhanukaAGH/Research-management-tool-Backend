@@ -5,7 +5,14 @@ const StudentGroup = require('../models/StudentGroup')
 const groupRegister = async (req, res) => {
   const { leader, member2, member3, member4 } = req.body
 
+  var value = await StudentGroup.countDocuments({})
+
+  console.log(value)
+
+  const groupID = value + 1
+
   const studentGroup = await StudentGroup.create({
+    groupID,
     leader,
     member2,
     member3,

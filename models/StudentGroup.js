@@ -3,6 +3,11 @@ const mongoose = require('mongoose')
 // const validator = require('validator')
 
 const StudentGroupSchema = mongoose.Schema({
+  groupID: {
+    type: Number,
+    required: true,
+  },
+
   leader: {
     name: {
       type: String,
