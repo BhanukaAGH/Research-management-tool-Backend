@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+
 /*const {
   getAllUsers,
   getSingleUser,
@@ -10,6 +11,7 @@ const router = express.Router()
 } = require('../controllers/ManageUsersController')*/
 
 const { list, find1,Update,Delete,DeleteM } = require('../controllers/ManageUsersController')
+
 
 router.route('/list').get(list)
 router.route('/find1/:id').get(find1)
