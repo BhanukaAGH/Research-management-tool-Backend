@@ -3,8 +3,15 @@ const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 
 const createTopic = async (req, res) => {
-  const { topicName, researchArea, studentId } = req.body
-  const topic = await Topic.create({ topicName, researchArea, studentId })
+  const { topicName, groupId, researchArea, studentId, supervisorName } =
+    req.body
+  const topic = await Topic.create({
+    topicName,
+    groupId,
+    researchArea,
+    studentId,
+    supervisorName,
+  })
   res.status(StatusCodes.CREATED).json({ topic })
 }
 

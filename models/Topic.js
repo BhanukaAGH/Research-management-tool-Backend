@@ -7,6 +7,11 @@ const TopicSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'Please provide topic name'],
     },
+    groupId: {
+      type: 'String',
+      trim: true,
+      required: [true, 'Please provide group id'],
+    },
     researchArea: {
       type: 'String',
       trim: 'true',
@@ -21,6 +26,19 @@ const TopicSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: true,
+    },
+    supervisorName: {
+      type: 'String',
+      trim: true,
+      required: [true, 'Please provide supervisor name'],
+    },
+    coSupervisorName: {
+      type: 'String',
+      trim: true,
+    },
+    panelId: {
+      type: 'String',
+      trim: true,
     },
   },
   { timestamps: true }
