@@ -12,6 +12,7 @@ const list = async (req, res) => {//get all users
 
   const find1 = async (req, res) => { //Find one user by ID
     const user1 = await User.findOne({_id: req.params.id})
+    
     if (!user1) {
         throw new CustomError.UnauthenticatedError('No  Users with ID In the DB')
       }
@@ -30,23 +31,52 @@ const list = async (req, res) => {//get all users
   }
 
   const Update = async (req, res) => { //Update 1 User
+    const { name, regNo, email, role } = req.body
+    // if (!name || !regNo || !email || !role) {
+    //   throw new CustomError.BadRequestError('Please provide all values')
+    // }
 
     const filter = { _id:req.params.id};
-    const update = { name:req.body.name,
-                     regNo:req.body.regNo,
-                     email:req.body.email,
-                     role:req.body.role
+    const update = { name,
+                     regNo,
+                     email,
+                     role
                     };
-    const oldDocument = await User.updateOne(filter, update)
-    res.json({oldDocument})
     
-    if (oldDocument.acknowledged){
-        console.log("update successfull");
-    }else{
-        console.log("update failed");
-    }
+    const id=req.params.id;
+    const prevEmail=await User.findOne({id});
+    const newEmail=email;
+    
+  //  console.log("new email",newEmail);
+  // console.log("prev email",prevEmail.email);
 
+      async function updateUser(){
+        const oldDocument = await User.updateOne(filter, update)
+        res.json({oldDocument})
+        
+        if (oldDocument.acknowledged){
+            console.log("update successfull");
+        }else{
+            console.log("update failed");
+        }
+    }
+    updateUser();
+                    
+    // if(newEmail!==prevEmail.email){
+    //   //console.log("emails not equal")
+    //   const emailAlreadyExists = await User.findOne({ email })
+    //   if (emailAlreadyExists) {
+    //     throw new CustomError.BadRequestError('Email already exists')
+    //   }
+    //   updateUser();
+      
+    // }else{
+    //   //console.log("emails equal")
+    //   updateUser();
+    // }
   }
+
+
   const Delete = async (req, res) => { //Delete 1 User  
 
     const Document = await User.deleteOne({_id: req.params.id});
