@@ -22,4 +22,20 @@ const groupRegister = async (req, res) => {
   res.status(StatusCodes.CREATED).json(studentGroup)
 }
 
-module.exports = { groupRegister }
+const getAllGroups = async (req, res) => {
+  const groups = await StudentGroup.find({})
+  res.status(StatusCodes.OK).json({ groups, count: groups.length })
+}
+
+const getGroupByID = async (req, res) => {
+  const group = await StudentGroup.findOne({ groupID: req.params.groupID })
+
+  if (!group) {
+    throw new CustomError.NotFoundError(
+      `No group with id ${req.params.groupID}`
+    )
+  }
+  res.status(StatusCodes.OK).json({ group })
+}
+
+module.exports = { groupRegister, getAllGroups, getGroupByID }

@@ -14,7 +14,7 @@ const connectDB = require('./db/connect')
 // routers
 const authRouter = require('./routes/authRoutes')
 
-const StudentRouter = require('./routes/studentRoutes')
+const studentGroupRouter = require('./routes/studentGroupRoutes')
 
 const userRouter = require('./routes/userRoutes')
 const topicRouter = require('./routes/topicRoutes')
@@ -29,7 +29,7 @@ app.use(express.json())
 
 app.use('/api/v1/auth', authRouter)
 
-app.use('/api/v1/student', StudentRouter)
+app.use('/api/v1/studentGroup', studentGroupRouter)
 
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
