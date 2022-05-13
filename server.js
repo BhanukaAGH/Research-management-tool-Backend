@@ -35,7 +35,7 @@ app.use('/api/v1/student', StudentRouter)
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
 
-app.use('/subtype', adminsubRoute)//admin create submission types
+app.use('/subtype', adminsubRoute)//admin create submissio n types
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
