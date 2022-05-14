@@ -13,11 +13,10 @@ const connectDB = require('./db/connect')
 
 // routers
 const authRouter = require('./routes/authRoutes')
-
 const StudentRouter = require('./routes/studentRoutes')
-
 const userRouter = require('./routes/userRoutes')
 const topicRouter = require('./routes/topicRoutes')
+const evaluationRouter = require('./routes/evaluationRoutes')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -28,11 +27,10 @@ app.use(morgan('tiny'))
 app.use(express.json())
 
 app.use('/api/v1/auth', authRouter)
-
 app.use('/api/v1/student', StudentRouter)
-
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
+app.use('/api/v1/evaluate', evaluationRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
