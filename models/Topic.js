@@ -3,22 +3,22 @@ const mongoose = require('mongoose')
 const TopicSchema = new mongoose.Schema(
   {
     topicName: {
-      type: 'String',
+      type: String,
       trim: true,
       required: [true, 'Please provide topic name'],
     },
     groupId: {
-      type: 'String',
+      type: String,
       trim: true,
       required: [true, 'Please provide group id'],
     },
     researchArea: {
-      type: 'String',
+      type: String,
       trim: 'true',
       required: [true, 'Please provide research area'],
     },
     status: {
-      type: 'String',
+      type: String,
       default: 'pending',
       enum: ['pending', 'approve', 'reject'],
     },
@@ -28,16 +28,16 @@ const TopicSchema = new mongoose.Schema(
       required: true,
     },
     supervisorName: {
-      type: 'String',
+      type: String,
       trim: true,
       required: [true, 'Please provide supervisor name'],
     },
     coSupervisorName: {
-      type: 'String',
+      type: String,
       trim: true,
     },
     panelId: {
-      type: 'String',
+      type: String,
       trim: true,
     },
   },
