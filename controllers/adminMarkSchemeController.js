@@ -29,8 +29,20 @@ const add=async(req,res)=>{//add more criteria
     res.json(update);
 
 }
+const remove=async(req,res)=>{//remove criteria
+    const filter = { _id:req.params.id};
+
+    const objID=req.body
+
+        const update=await markScheme.findByIdAndUpdate(filter,
+            {$pull:{"markScheme":{_id : objID}}},
+            {safe: true, multi:false}
+            );
+            res.json(update);
+
+}
 
 
 
 
-module.exports={Create,add}
+module.exports={Create,add,remove}
