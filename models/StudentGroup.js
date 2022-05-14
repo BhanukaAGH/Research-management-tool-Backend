@@ -53,6 +53,7 @@ const StudentGroupSchema = mongoose.Schema({
     },
   },
   
+  
 
 
   member4: {
@@ -68,6 +69,10 @@ const StudentGroupSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+  },
+  Panelmember: {
+    type: String,
+    default: 'Not Allocated'
   },
 })
 

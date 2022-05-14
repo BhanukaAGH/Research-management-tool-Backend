@@ -17,6 +17,7 @@ const StudentRouter = require('./routes/studentRoutes')
 const userRouter = require('./routes/userRoutes')
 const topicRouter = require('./routes/topicRoutes')
 const evaluationRouter = require('./routes/evaluationRoutes')
+const adminsubRoute = require('./routes/adminSubRoutes') //admin subtype routes
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -31,6 +32,7 @@ app.use('/api/v1/student', StudentRouter)
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
 app.use('/api/v1/evaluate', evaluationRouter)
+app.use('/subtype', adminsubRoute) //admin create submissio n types
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
