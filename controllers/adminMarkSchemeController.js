@@ -29,7 +29,7 @@ const add=async(req,res)=>{//add more criteria
     res.json(update);
 
 }
-const remove=async(req,res)=>{//remove criteria
+const remove=async(req,res)=>{//remove criteria method
     const filter = { _id:req.params.id};
 
     const objID=req.body

@@ -5,7 +5,7 @@ const {Create,add,remove } = require('../controllers/adminMarkSchemeController')
 
 router.route('/create').post(Create)
 router.route('/update/:id').patch(add)
-router.route('/remove/:id').delete(remove)
+router.route('/remove/:id').delete(remove)//remove criteria
 
 
 
