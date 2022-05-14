@@ -14,14 +14,21 @@ const MarkSchemeSchema=mongoose.Schema({
             criteria:{
                 type:String,
                 trim:true,
-                required:[true, 'Please provide criteria']
+                //required:[true, 'Please provide criteria'],
+                default: 'empty',
             },
             allocatedMark:{
                 type:Number,
-                required:[true, 'Please provide  AllocatedMark']
+                //required:[true, 'Please provide  AllocatedMark'],
+                default: 0,
             }
         },
     ],
+    schemeType: {
+        type: String,
+        enum: ['document', 'presentation'],
+        required: [true, 'Please provide schema type'],
+      },
 },{ timestamps: true})
 
 module.exports = mongoose.model('MarkScheme', MarkSchemeSchema)

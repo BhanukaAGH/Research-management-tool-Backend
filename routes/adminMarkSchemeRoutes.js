@@ -1,7 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const { } = require('../controllers/adminMarkSchemeController')
+const {Create,add } = require('../controllers/adminMarkSchemeController')
+
+router.route('/create').post(Create)
+router.route('/update/:id').patch(add)
 
 
 
