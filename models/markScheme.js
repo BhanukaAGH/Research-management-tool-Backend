@@ -14,10 +14,12 @@ const MarkSchemeSchema = mongoose.Schema(
         criteria: {
           type: String,
           trim: true,
+          //required:[true, 'Please provide criteria'],
           default: 'empty',
         },
         allocatedMark: {
           type: Number,
+          //required:[true, 'Please provide  AllocatedMark'],
           default: 0,
         },
       },
