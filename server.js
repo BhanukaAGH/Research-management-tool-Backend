@@ -21,7 +21,7 @@ const adminsubRoute=require('./routes/adminSubRoutes')//admin subtype routes
 const adminmarkscheme=require('./routes/adminMarkSchemeRoutes')//admin marchscheme router
 
 const evaluationRouter = require('./routes/evaluationRoutes')
-const adminsubRoute = require('./routes/adminSubRoutes') //admin subtype routes
+
 
 
 // middleware

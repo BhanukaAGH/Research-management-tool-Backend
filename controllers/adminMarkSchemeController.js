@@ -1,5 +1,7 @@
+const res = require('express/lib/response')
 const CustomError = require('../errors')
 const markScheme= require('../models/markScheme')
+const { StatusCodes } = require('http-status-codes')
 
 const Create=async(req,res)=>{//create marckscheme
     const {markSchemeName,Description,schemeType}=req.body
@@ -42,7 +44,44 @@ const remove=async(req,res)=>{//remove criteria method
 
 }
 
+const getAll=async(req,res)=>{//get all markschemes
+
+    const marckschemes= await markScheme.find({})
+
+    if (!marckschemes) {
+        throw new CustomError.UnauthenticatedError('No markSchems In the DB')
+     }
+     res.json(marckschemes) 
+
+}
+const del = async (req, res) => { //delete making scheme   
+
+    const Document = await markScheme.deleteOne({_id: req.params.id});
+    
+    
+    if (Document.acknowledged){
+        console.log("Delete successfull");
+    }else{console.log("Delete Failed");}
+    res.json({Document})
+    
+  }
+  
+  const getOne=async(req,res)=>{//get one markscheme details
+
+    
+    const marckscheme= await markScheme.findOne({_id: req.params.id})
+
+    if (!marckscheme) {
+        res.status(401)
+        throw new CustomError.UnauthenticatedError('No markSchem In the DB')
+        
+     }
+     res.json(marckscheme) 
+    
+
+}
 
 
 
-module.exports={Create,add,remove}
+
+module.exports={Create,add,remove,getAll,del,getOne}
