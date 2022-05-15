@@ -12,7 +12,7 @@ const EvalutaionSchema = new mongoose.Schema(
       enum: ['document', 'presentation'],
       required: [true, 'Please provide evaluation type'],
     },
-    schema: {
+    markScheme: {
       type: Array,
       required: [true, 'Please provide evaluation scheme'],
     },

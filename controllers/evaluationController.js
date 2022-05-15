@@ -5,11 +5,12 @@ const { StatusCodes } = require('http-status-codes')
 
 //! CREATE EVALUATION CONTROLLER
 const createEvaluation = async (req, res) => {
-  const { groupId, evaluationType, schema, totalMark, evaluateBy } = req.body
+  const { groupId, evaluationType, markScheme, totalMark, evaluateBy } =
+    req.body
   let evaluation = await Evaluation.findOne({ groupId, evaluationType })
 
   if (evaluation) {
-    evaluation.schema = schema
+    evaluation.markScheme = markScheme
     evaluation.totalMark = totalMark
     evaluation.evaluateBy = evaluateBy
 
@@ -18,18 +19,18 @@ const createEvaluation = async (req, res) => {
     evaluation = await Evaluation.create(req.body)
   }
 
-  res.status(StatusCodes.CREATED).json({ ...evaluation })
+  res.status(StatusCodes.CREATED).json(evaluation)
 }
 
 //! GET EVALUATION CONTROLLER
 const getEvaluation = async (req, res) => {
   const { id: groupId, evaluationType } = req.params
 
-  let evaluation = await Evaluation.findOne({ groupId, evaluationType })
+  var evaluation = await Evaluation.findOne({ groupId, evaluationType })
   if (!evaluation) {
-    evaluation = await MarkScheme.findOne({ evaluationType })
+    evaluation = await MarkScheme.findOne({ schemaType: evaluationType })
   }
-  res.status(StatusCodes.OK).json({ ...evaluation })
+  res.status(StatusCodes.OK).json(evaluation)
 }
 
 module.exports = {
