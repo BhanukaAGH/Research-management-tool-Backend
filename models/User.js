@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     enum: ['admin', 'student', 'supervisor', 'co_supervisor', 'panel_member'],
     default: 'student',
   },
+  photoUrl: {
+    type: String,
+    default: 'http://www.gravatar.com/avatar/?d=mp',
+  },
 })
 
 UserSchema.pre('save', async function () {

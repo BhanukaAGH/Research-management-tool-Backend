@@ -7,6 +7,13 @@ const app = express()
 // rest of the packages
 const morgan = require('morgan')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const cloudinary = require('cloudinary').v2
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+})
 
 // database
 const connectDB = require('./db/connect')
@@ -27,6 +34,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler.js')
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
+app.use(fileUpload({ useTempFiles: true }))
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/student', StudentRouter)
