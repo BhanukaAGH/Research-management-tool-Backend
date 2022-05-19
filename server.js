@@ -18,6 +18,7 @@ const studentGroupRouter = require('./routes/studentGroupRoutes')
 
 const userRouter = require('./routes/userRoutes')
 const topicRouter = require('./routes/topicRoutes')
+const supervisorRouter = require('./routes/supervisorRoutes')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -33,6 +34,7 @@ app.use('/api/v1/studentGroup', studentGroupRouter)
 
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
+app.use('/api/v1/supervisor', supervisorRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
