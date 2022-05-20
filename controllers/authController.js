@@ -2,18 +2,49 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const { createTokenUser, createJWT } = require('../utils')
+const ShortUniqueId = require('short-unique-id')
+const uid = new ShortUniqueId({
+  length: 8,
+  dictionary: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+})
 
 //! REGISTER USER CONTROLLER
 const register = async (req, res) => {
-  const { name, regNo, email, password, userRole } = req.body
+  const { name, password, userRole } = req.body
 
-  if (!name || !regNo || !email || !password) {
+  if (!name || !password) {
     throw new CustomError.BadRequestError('Please provide all values')
   }
 
-  const emailAlreadyExists = await User.findOne({ email })
-  if (emailAlreadyExists) {
-    throw new CustomError.BadRequestError('Email already exists')
+  var regNo
+  var email
+
+  while (true) {
+    if (userRole === 'supervisor') {
+      regNo = 'SU' + uid()
+      email = regNo.toLowerCase() + '@my.sliit.lk'
+    }
+
+    if (userRole === 'student') {
+      regNo = 'IT' + uid()
+      email = regNo.toLowerCase() + '@my.sliit.lk'
+    }
+
+    if (userRole === 'co_supervisor') {
+      regNo = 'CS' + uid()
+      email = regNo.toLowerCase() + '@my.sliit.lk'
+    }
+
+    if (userRole === 'panel_member') {
+      regNo = 'PA' + uid()
+      email = regNo.toLowerCase() + '@my.sliit.lk'
+    }
+
+    const emailAlreadyExists = await User.findOne({ email })
+    if (emailAlreadyExists) {
+      continue
+    }
+    break
   }
 
   // first registered user is an admin

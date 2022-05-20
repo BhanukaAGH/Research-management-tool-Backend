@@ -3,6 +3,11 @@ const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const cloudinary = require('cloudinary').v2
 const fs = require('fs')
+const ShortUniqueId = require('short-unique-id')
+const uid = new ShortUniqueId({
+  length: 8,
+  dictionary: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+})
 
 //! GET ALL USERS
 const getAllUsers = async (req, res) => {
@@ -34,9 +39,47 @@ const getSingleUserByRole = async (req, res) => {
 
 //! UPDATE USER BY ID
 const updateUser = async (req, res) => {
-  const { name, regNo, email, role } = req.body
+  const { name, role } = req.body
   const filter = { _id: req.params.id }
-  const update = { name, regNo, email, role }
+
+  const user = await User.findOne(filter)
+  var regNo
+  var email
+  var update = { name, role }
+
+  if (user.role !== role) {
+    while (true) {
+      if (role === 'supervisor') {
+        regNo = 'SU' + uid()
+        email = regNo.toLowerCase() + '@my.sliit.lk'
+      }
+
+      if (role === 'student') {
+        regNo = 'IT' + uid()
+        email = regNo.toLowerCase() + '@my.sliit.lk'
+      }
+
+      if (role === 'co_supervisor') {
+        regNo = 'CS' + uid()
+        email = regNo.toLowerCase() + '@my.sliit.lk'
+      }
+
+      if (role === 'panel_member') {
+        regNo = 'PA' + uid()
+        email = regNo.toLowerCase() + '@my.sliit.lk'
+      }
+
+      const emailAlreadyExists = await User.findOne({ email })
+      if (emailAlreadyExists) {
+        continue
+      }
+      break
+    }
+
+    update = { name, regNo, email, role }
+  }
+
+  console.log(update)
 
   const oldDocument = await User.updateOne(filter, update)
   res.status(StatusCodes.OK).json({ oldDocument })
