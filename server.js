@@ -7,6 +7,13 @@ const app = express()
 // rest of the packages
 const morgan = require('morgan')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const cloudinary = require('cloudinary').v2
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+})
 
 // database
 const connectDB = require('./db/connect')
@@ -14,11 +21,16 @@ const connectDB = require('./db/connect')
 // routers
 const authRouter = require('./routes/authRoutes')
 
-const studentGroupRouter = require('./routes/studentGroupRoutes')
+// const studentGroupRouter = require('./routes/studentGroupRoutes')
 
+const supervisorRouter = require('./routes/supervisorRoutes')
+
+const StudentRouter = require('./routes/studentRoutes')
 const userRouter = require('./routes/userRoutes')
 const topicRouter = require('./routes/topicRoutes')
-const supervisorRouter = require('./routes/supervisorRoutes')
+const adminsubRoute = require('./routes/adminSubRoutes') //admin subtype routes
+const adminmarkscheme = require('./routes/adminMarkSchemeRoutes') //admin marchscheme router
+const evaluationRouter = require('./routes/evaluationRoutes')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -27,14 +39,20 @@ const errorHandlerMiddleware = require('./middleware/error-handler.js')
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
+app.use(fileUpload({ useTempFiles: true }))
 
 app.use('/api/v1/auth', authRouter)
 
-app.use('/api/v1/studentGroup', studentGroupRouter)
+// app.use('/api/v1/studentGroup', studentGroupRouter)
 
+app.use('/api/v1/supervisor', supervisorRouter)
+
+app.use('/api/v1/student', StudentRouter)
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
-app.use('/api/v1/supervisor', supervisorRouter)
+app.use('/api/v1/evaluate', evaluationRouter)
+app.use('/subtype', adminsubRoute) //admin create submissio n types
+app.use('/markscheme', adminmarkscheme) //admin markscheme
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     maxlength: 50,
   },
   regNo: {
-    type: 'String',
+    type: String,
     required: [true, 'Please provide regNo'],
   },
   email: {
@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ['admin', 'student', 'supervisor', 'co_supervisor', 'panel_member'],
     default: 'student',
+  },
+  photoUrl: {
+    type: String,
+    default: 'http://www.gravatar.com/avatar/?d=mp',
   },
 })
 
