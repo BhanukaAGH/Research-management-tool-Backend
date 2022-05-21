@@ -101,36 +101,15 @@ const deleteUsers = async (req, res) => {
 //! UPDATE USER PROFILE IMAGE
 const updateProfileImage = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId })
-  if (!req.files) {
+  if (!req.file) {
     throw new CustomError.BadRequestError('Please upload valid image')
   }
 
-  const profileImage = req.files.image
-  if (!profileImage.mimetype.startsWith('image')) {
+  if (req.file.mimetype.split('/')[0] !== 'image') {
     throw new CustomError.BadRequestError('Please upload Image')
   }
 
-  const maxSize = 2 * 1024 * 1024
-  if (profileImage.size > maxSize) {
-    throw new CustomError.BadRequestError(
-      'Please upload image smaller than 2MB'
-    )
-  }
-
-  const result = await cloudinary.uploader.upload(
-    req.files.image.tempFilePath,
-    {
-      use_filename: true,
-      folder: 'profile-images',
-      resource_type: 'image',
-      allowedFormats: ['jpeg', 'png', 'jpg', 'webp', 'svg'],
-      transformation: [{ width: 500, height: 500, crop: 'fill' }],
-    }
-  )
-
-  fs.unlinkSync(req.files.image.tempFilePath)
-
-  user.photoUrl = result.secure_url
+  user.photoUrl = req.file.path
   await user.save()
   res.status(StatusCodes.OK).json(user)
 }

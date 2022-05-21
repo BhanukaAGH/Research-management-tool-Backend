@@ -7,7 +7,6 @@ const app = express()
 // rest of the packages
 const morgan = require('morgan')
 const cors = require('cors')
-const fileUpload = require('express-fileupload')
 const cloudinary = require('cloudinary').v2
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -26,6 +25,7 @@ const topicRouter = require('./routes/topicRoutes')
 const adminsubRoute = require('./routes/adminSubRoutes') //admin subtype routes
 const adminmarkscheme = require('./routes/adminMarkSchemeRoutes') //admin marchscheme router
 const evaluationRouter = require('./routes/evaluationRoutes')
+const submissionRouter = require('./routes/submissionRoutes')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -34,13 +34,13 @@ const errorHandlerMiddleware = require('./middleware/error-handler.js')
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
-app.use(fileUpload({ useTempFiles: true }))
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/student', StudentRouter)
 app.use('/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
 app.use('/api/v1/evaluate', evaluationRouter)
+app.use('/api/v1/submission', submissionRouter)
 app.use('/subtype', adminsubRoute) //admin create submissio n types
 app.use('/markscheme', adminmarkscheme) //admin markscheme
 
