@@ -7,7 +7,7 @@ const SubmissionSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    submissionTypeId: {
+    submissionId: {
       type: mongoose.Types.ObjectId,
       ref: 'SubmissionTypes',
       required: true,
@@ -20,9 +20,13 @@ const SubmissionSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide submission description'],
     },
+    submitFileName: {
+      type: String,
+      required: true,
+    },
     submitDocumentUrl: {
       type: String,
-      required: [true, 'please upload your document'],
+      required: true,
     },
   },
   { timestamps: true }

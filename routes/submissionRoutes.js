@@ -10,6 +10,7 @@ const {
 } = require('../middleware/authentication')
 
 const {
+  fileUpload,
   submitDocument,
   getAllSubmissions,
   getStudentSubmissions,
@@ -30,7 +31,6 @@ router
   .post(
     authenticateUser,
     authorizePermissions('admin', 'student'),
-    upload.single('document'),
     submitDocument
   )
 
@@ -45,6 +45,15 @@ router
       'panel_member'
     ),
     getAllSubmissions
+  )
+
+router
+  .route('/file-upload')
+  .post(
+    authenticateUser,
+    authorizePermissions('admin', 'student'),
+    upload.single('document'),
+    fileUpload
   )
 
 router
