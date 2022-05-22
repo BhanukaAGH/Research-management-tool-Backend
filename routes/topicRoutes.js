@@ -10,6 +10,7 @@ const {
   createTopic,
   getAllTopics,
   getSingleTopic,
+  getTopic,
   updateTopic,
   deleteTopic,
 } = require('../controllers/topicController')
@@ -37,6 +38,7 @@ router
   )
 
 router.route('/:id').get(authenticateUser, getSingleTopic)
+router.route('/group/:groupId').get(getTopic)
 router.route('/:id').patch(authenticateUser, updateTopic)
 
 router
