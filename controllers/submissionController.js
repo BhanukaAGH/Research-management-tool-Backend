@@ -1,4 +1,5 @@
 const Submission = require('../models/Submission')
+const SubmissionTypes = require('../models/SubmissionTypes')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 
@@ -54,6 +55,9 @@ const submitDocument = async (req, res) => {
     submitFileName,
     submitDocumentUrl,
   }
+  const submissionType = await SubmissionTypes.findOne({ _id: submissionId })
+  submissionType.submitUsers.unshift({ user: req.user.userId })
+  await submissionType.save()
 
   const submission = await Submission.create(submissionData)
   res.status(StatusCodes.CREATED).json(submission)
@@ -62,7 +66,7 @@ const submitDocument = async (req, res) => {
 //! GET ALL SUBMISSIONS
 const getAllSubmissions = async (req, res) => {
   const submissions = await Submission.find({})
-  res.status(StatusCodes.CREATED).json(submissions)
+  res.status(StatusCodes.OK).json(submissions)
 }
 
 //! GET STUDENT SUBMISSIONS
@@ -71,12 +75,24 @@ const getStudentSubmissions = async (req, res) => {
     submitUserId: req.params.userId,
   })
 
-  res.status(StatusCodes.CREATED).json(studentSubmissions)
+  res.status(StatusCodes.OK).json(studentSubmissions)
+}
+
+//! GET SUBMISSION
+const getSubmission = async (req, res) => {
+  const { submissionId, userId } = req.params
+  const submission = await Submission.findOne({
+    submissionId,
+    submitUserId: userId,
+  })
+
+  res.status(StatusCodes.OK).json(submission)
 }
 
 module.exports = {
   fileUpload,
   submitDocument,
+  getSubmission,
   getAllSubmissions,
   getStudentSubmissions,
 }

@@ -20,7 +20,7 @@ const getAllUsers = async (req, res) => {
 
 //! GET USER BY ID
 const getSingleUserById = async (req, res) => {
-  const user = await User.findOne({ _id: req.params.id })
+  const user = await User.findOne({ _id: req.params.id }).select('-password')
 
   if (!user) {
     throw new CustomError.UnauthenticatedError('No  Users with ID In the DB')

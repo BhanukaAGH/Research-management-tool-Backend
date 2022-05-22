@@ -1,16 +1,65 @@
 const { StatusCodes } = require('http-status-codes')
 const StudentGroup = require('../models/StudentGroup')
+const User = require('../models/User')
 const CustomError = require('../errors')
 
 // Register student group
 const groupRegister = async (req, res) => {
-  const { leader, member2, member3, member4, Panelmember } = req.body
+  const { leaderId, member2Id, member3Id, member4Id, Panelmember } = req.body
+
+  if (!leaderId || !member2Id || !member3Id || !member4Id) {
+    throw new CustomError.BadRequestError(
+      'Please enter all group members registration numbers'
+    )
+  }
 
   var value = await StudentGroup.countDocuments({})
+  const groupID = 'REC_GROUP_' + (value + 1)
 
-  console.log(value)
+  const leader = await User.findOne({ regNo: leaderId }).select(
+    'name email regNo'
+  )
+  if (!leader) {
+    throw new CustomError.BadRequestError(
+      'Leader registration number is invalid'
+    )
+  }
+  leader.groupId = groupID
 
-  const groupID = value + 1
+  const member2 = await User.findOne({ regNo: member2Id }).select(
+    'name email regNo'
+  )
+  if (!member2) {
+    throw new CustomError.BadRequestError(
+      'Leader registration number is invalid'
+    )
+  }
+  member2.groupId = groupID
+
+  const member3 = await User.findOne({ regNo: member3Id }).select(
+    'name email regNo'
+  )
+  if (!member3) {
+    throw new CustomError.BadRequestError(
+      'Leader registration number is invalid'
+    )
+  }
+  member3.groupId = groupID
+
+  const member4 = await User.findOne({ regNo: member4Id }).select(
+    'name email regNo'
+  )
+  if (!member4) {
+    throw new CustomError.BadRequestError(
+      'Leader registration number is invalid'
+    )
+  }
+  member4.groupId = groupID
+
+  await leader.save()
+  await member2.save()
+  await member3.save()
+  await member4.save()
 
   const studentGroup = await StudentGroup.create({
     groupID,
@@ -23,25 +72,6 @@ const groupRegister = async (req, res) => {
 
   res.status(StatusCodes.CREATED).json(studentGroup)
 }
-//rivindu created get student groups & update methods
-
-// const getAllGroups = async (req, res) => {
-//   const groups = await StudentGroup.find({})
-//   res.status(StatusCodes.OK).json({ groups, count: groups.length })
-// }
-
-const getGroupByID = async (req, res) => {
-  const group = await StudentGroup.findOne({ groupID: req.params.groupID })
-
-  if (!group) {
-    throw new CustomError.NotFoundError(
-      `No group with id ${req.params.groupID}`
-    )
-  }
-  res.status(StatusCodes.OK).json({ group })
-}
-
-//get all student groups
 
 const getStudentgroups = async (req, res) => {
   //get all student groups
@@ -83,10 +113,4 @@ const Allocate = async (req, res) => {
   }
 }
 
-module.exports = {
-  groupRegister,
-  getGroupByID,
-  getStudentgroups,
-  getOneGroup,
-  Allocate,
-}
+module.exports = { groupRegister, getStudentgroups, getOneGroup, Allocate }

@@ -12,6 +12,7 @@ const {
 const {
   fileUpload,
   submitDocument,
+  getSubmission,
   getAllSubmissions,
   getStudentSubmissions,
 } = require('../controllers/submissionController')
@@ -62,6 +63,14 @@ router
     authenticateUser,
     authorizePermissions('admin', 'student'),
     getStudentSubmissions
+  )
+
+router
+  .route('/:submissionId/:userId')
+  .get(
+    authenticateUser,
+    authorizePermissions('admin', 'student'),
+    getSubmission
   )
 
 module.exports = router
