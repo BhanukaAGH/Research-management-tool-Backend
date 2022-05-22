@@ -36,6 +36,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: 'http://www.gravatar.com/avatar/?d=mp',
   },
+  groupId: {
+    type: String,
+  },
 })
 
 UserSchema.pre('save', async function () {

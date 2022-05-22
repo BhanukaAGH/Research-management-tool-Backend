@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const StudentGroupSchema = mongoose.Schema({
   groupID: {
-    type: Number,
+    type: String,
     required: true,
   },
 
@@ -13,7 +13,7 @@ const StudentGroupSchema = mongoose.Schema({
       type: String,
       required: true,
     },
-    studentID: {
+    regNo: {
       type: String,
       required: true,
     },
@@ -28,7 +28,7 @@ const StudentGroupSchema = mongoose.Schema({
       type: String,
       required: true,
     },
-    studentID: {
+    regNo: {
       type: String,
       required: true,
     },
@@ -43,7 +43,7 @@ const StudentGroupSchema = mongoose.Schema({
       type: String,
       required: true,
     },
-    studentID: {
+    regNo: {
       type: String,
       required: true,
     },
@@ -52,16 +52,13 @@ const StudentGroupSchema = mongoose.Schema({
       required: true,
     },
   },
-  
-  
-
 
   member4: {
     name: {
       type: String,
       required: true,
     },
-    studentID: {
+    regNo: {
       type: String,
       required: true,
     },
@@ -72,7 +69,7 @@ const StudentGroupSchema = mongoose.Schema({
   },
   Panelmember: {
     type: String,
-    default: 'Not Allocated'
+    default: 'Not Allocated',
   },
 })
 
