@@ -25,7 +25,7 @@ const TopicSchema = new mongoose.Schema(
     studentId: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
-      // required: true,
+      required: true,
     },
     supervisorName: {
       type: String,
