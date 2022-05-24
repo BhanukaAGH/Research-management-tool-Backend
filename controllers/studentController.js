@@ -73,7 +73,7 @@ const groupRegister = async (req, res) => {
   res.status(StatusCodes.CREATED).json(studentGroup)
 }
 
-const getStudentgroups = async (req, res) => {
+const getAllgroups = async (req, res) => {
   //get all student groups
   try {
     const result = await StudentGroup.find()
@@ -99,21 +99,6 @@ const getOneGroup = async (req, res) => {
     console.log('error in fetching one user', error)
   }
 }
-
-const getGroupByID = async (req, res) => {
-  //get group by Group ID
-  try {
-    const result = await StudentGroup.findOne({ groupID: req.params.id })
-    if (!result) {
-      throw new CustomError.UnauthenticatedError('No  group with ID In the DB')
-    }
-    res.json(result)
-  } catch (error) {
-    res.status(400)
-    console.log('error in fetching one user', error)
-  }
-}
-
 const Allocate = async (req, res) => {
   //patch to allocate panel members
 
@@ -128,10 +113,17 @@ const Allocate = async (req, res) => {
   }
 }
 
+const getStudentGroup = async (req, res) => {
+  const user = await User.findOne({ _id: req.params.userId })
+  const group = await StudentGroup.findOne({ groupID: user.groupId })
+
+  res.status(StatusCodes.OK).json(group)
+}
+
 module.exports = {
   groupRegister,
-  getStudentgroups,
+  getAllgroups,
+  getStudentGroup,
   getOneGroup,
-  getGroupByID,
   Allocate,
 }

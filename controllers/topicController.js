@@ -29,6 +29,15 @@ const getSingleTopic = async (req, res) => {
   res.status(StatusCodes.OK).json({ topic })
 }
 
+const getTopic = async (req, res) => {
+  const topic = await Topic.findOne({ groupId: req.params.groupId })
+
+  if (!topic) {
+    throw new CustomError.NotFoundError(`No topic with id ${req.params.id}`)
+  }
+  res.status(StatusCodes.OK).json(topic)
+}
+
 const updateTopic = async (req, res) => {
   const { id: topicId } = req.params
   const topic = await Topic.findOneAndUpdate({ _id: topicId }, req.body, {
@@ -58,6 +67,7 @@ module.exports = {
   createTopic,
   getAllTopics,
   getSingleTopic,
+  getTopic,
   updateTopic,
   deleteTopic,
 }
