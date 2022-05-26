@@ -4,10 +4,13 @@ const MarkSchemeSchema = mongoose.Schema(
   {
     markSchemeName: {
       type: String,
-      required: true,
+      required: [true, 'Please MarkScheme name'],
+      minlength: [3,'MarkScheme Name Should Have more than 4 character'],
+      maxlength: [10,'MarkScheme Name Should Have less than 10 character'],
     },
     Description: {
       type: String,
+      maxlength: [50,"description length cant exceed 50 characters"],
     },
     markScheme: [
       {
