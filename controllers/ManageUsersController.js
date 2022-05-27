@@ -42,11 +42,26 @@ const updateUser = async (req, res) => {
   const { name, role } = req.body
   const filter = { _id: req.params.id }
 
+
+  //backend validation
   const check = await User.findOne(filter)
-  
-  if (name==check.name && role==check.role) {
-    throw new CustomError.UnauthenticatedError('Not Updated')
+  const Arole="admin"
+  if(role==Arole){
+    throw new CustomError.UnauthenticatedError('Admin  Cannot Be changed')
   }
+  
+  if (name.length<=3) {
+    console.log("namelength",name.length)
+    throw new CustomError.UnauthenticatedError('User Name should be more than 3 chracters No change ')
+  }
+  if (name.length>=50) {
+    //console.log("namelength",name.length<=3)
+    throw new CustomError.UnauthenticatedError('User Name cannot be more than 50 chracters ')
+  }
+  if (name==check.name && role==check.role) {
+    throw new CustomError.UnauthenticatedError('No Change')
+  }
+
   const user = await User.findOne(filter)
   var regNo
   var email
@@ -86,7 +101,7 @@ const updateUser = async (req, res) => {
 
   console.log(update)
 try{
-  const oldDocument = await User.updateOne(filter, update)
+  await User.updateOne(filter, update)
   //res.status(StatusCodes.OK).json({ oldDocument })
   res.send({msg: 'Updated'});
 }catch (e){
