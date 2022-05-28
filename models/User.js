@@ -6,8 +6,8 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide name'],
-    minlength: 3,
-    maxlength: 50,
+    minlength: [3,"mininmum lenght is 3"],
+    maxlength: [50,"maximum length is 50"],
   },
   regNo: {
     type: String,
