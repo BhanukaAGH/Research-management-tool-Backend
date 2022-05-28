@@ -42,6 +42,11 @@ const updateUser = async (req, res) => {
   const { name, role } = req.body
   const filter = { _id: req.params.id }
 
+  const check = await User.findOne(filter)
+  
+  if (name==check.name && role==check.role) {
+    throw new CustomError.UnauthenticatedError('Not Updated')
+  }
   const user = await User.findOne(filter)
   var regNo
   var email
@@ -80,9 +85,14 @@ const updateUser = async (req, res) => {
   }
 
   console.log(update)
-
+try{
   const oldDocument = await User.updateOne(filter, update)
-  res.status(StatusCodes.OK).json({ oldDocument })
+  //res.status(StatusCodes.OK).json({ oldDocument })
+  res.send({msg: 'Updated'});
+}catch (e){
+  res.send({msg: 'Updated Failed'});
+}
+  
 }
 
 //! DELETE USER BY ID
@@ -93,9 +103,16 @@ const deleteUserById = async (req, res) => {
 
 //! DELETE USERS
 const deleteUsers = async (req, res) => {
-  const arr = req.params.ids.split(',')
-  const Document = await User.deleteMany({ _id: { $in: arr } })
-  res.status(StatusCodes.OK).json(Document)
+  try{
+    const arr = req.params.ids.split(',')
+    const Document = await User.deleteMany({ _id: { $in: arr } })
+  //res.status(StatusCodes.OK).json(Document)
+    res.send({msg: 'Delete Successfull'});
+
+  }catch(e){
+    res.send({msg: e});
+  }
+  
 }
 
 //! UPDATE USER PROFILE IMAGE

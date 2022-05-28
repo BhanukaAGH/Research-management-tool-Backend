@@ -16,7 +16,16 @@ const Create=async(req,res)=>{//create marckscheme
       }
     
     const create = await markScheme.create({markSchemeName,Description,schemeType});
+    if(create){
+        console.log("MS created successfully");
+        res.send({msg: 'Marks Schem  created successfully'});
+        
+    }else{
+       console.log("failed to create");
+       res.send({message: 'Failed to create'});
+    }
     res.json(create) 
+    
 }
 
 const add=async(req,res)=>{//add more criteria
