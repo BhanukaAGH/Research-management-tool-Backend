@@ -51,7 +51,7 @@ const updateTopic = async (req, res) => {
   } else if (req.user.role === 'co_supervisor') {
     data = { coSupervisor: { id, status } }
   }
-  console.log(data)
+
   const topic = await Topic.findOneAndUpdate({ _id: topicId }, data, {
     new: true,
     runValidators: true,
