@@ -14,6 +14,8 @@ const {
   deleteUserById,
   deleteUsers,
   updateProfileImage,
+  getAllSupervisors,
+  getAllCoSupervisors,
 } = require('../controllers/ManageUsersController')
 
 const storage = new CloudinaryStorage({
@@ -32,6 +34,8 @@ router.route('/list').get(getAllUsers)
 router
   .route('/update-profile')
   .patch(authenticateUser, upload.single('image'), updateProfileImage)
+router.route('/getAllSupervisors').get(authenticateUser, getAllSupervisors)
+router.route('/getAllCoSupervisors').get(authenticateUser, getAllCoSupervisors)
 router.route('/find1/:id').get(getSingleUserById)
 router.route('/update1/:id').post(updateUser)
 router.route('/delete1/:id').delete(deleteUserById)

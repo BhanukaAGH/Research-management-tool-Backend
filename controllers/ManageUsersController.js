@@ -141,6 +141,28 @@ const updateProfileImage = async (req, res) => {
   res.status(StatusCodes.OK).json(user)
 }
 
+//! GET ALL SUPERVISORS
+const getAllSupervisors = async (req, res) => {
+  const supervisors = await User.find({ role: 'supervisor' }).select(
+    '-password -email -regNo -photoUrl'
+  )
+  if (!supervisors) {
+    throw new CustomError.BadRequestError('No Supervisors In the DB')
+  }
+  res.status(StatusCodes.OK).json(supervisors)
+}
+
+//! GET ALL CO-SUPERVISORS
+const getAllCoSupervisors = async (req, res) => {
+  const coSupervisors = await User.find({ role: 'co_supervisor' }).select(
+    '-password -email -regNo -photoUrl'
+  )
+  if (!coSupervisors) {
+    throw new CustomError.BadRequestError('No Co-Supervisors In the DB')
+  }
+  res.status(StatusCodes.OK).json(coSupervisors)
+}
+
 module.exports = {
   getAllUsers,
   getSingleUserById,
@@ -149,5 +171,7 @@ module.exports = {
   deleteUserById,
   deleteUsers,
   updateProfileImage,
+  getAllSupervisors,
+  getAllCoSupervisors,
 }
 
