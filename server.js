@@ -37,12 +37,12 @@ app.use(express.json())
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/student', StudentRouter)
-app.use('/users', userRouter)
+app.use('/api/v1/users', userRouter)
 app.use('/api/v1/topic', topicRouter)
 app.use('/api/v1/evaluate', evaluationRouter)
 app.use('/api/v1/submission', submissionRouter)
-app.use('/subtype', adminsubRoute) //admin create submissio n types
-app.use('/markscheme', adminmarkscheme) //admin markscheme
+app.use('/api/v1/subtype', adminsubRoute)
+app.use('/api/v1/markscheme', adminmarkscheme)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
