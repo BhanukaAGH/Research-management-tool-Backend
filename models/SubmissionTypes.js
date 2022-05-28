@@ -5,8 +5,8 @@ const SubTypeSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'Please provide name'],
-      minlength: [3,'Submission Name Should Have more than 4 character'],
-      maxlength: [10,'Submission Name Should Have less than 10 character'],
+      minlength: [3, 'Submission Name Should Have more than 4 character'],
+      maxlength: [10, 'Submission Name Should Have less than 10 character'],
     },
     dueDate: {
       type: String,
@@ -19,7 +19,7 @@ const SubTypeSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxlength: [50,"description length cant exceed 50 characters"],
+      maxlength: [50, 'description length cant exceed 50 characters'],
     },
     submitUsers: [
       {

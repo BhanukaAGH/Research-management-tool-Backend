@@ -1,8 +1,6 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
-const cloudinary = require('cloudinary').v2
-const fs = require('fs')
 const ShortUniqueId = require('short-unique-id')
 const uid = new ShortUniqueId({
   length: 8,
@@ -43,8 +41,8 @@ const updateUser = async (req, res) => {
   const filter = { _id: req.params.id }
 
   const check = await User.findOne(filter)
-  
-  if (name==check.name && role==check.role) {
+
+  if (name == check.name && role == check.role) {
     throw new CustomError.UnauthenticatedError('Not Updated')
   }
   const user = await User.findOne(filter)
@@ -85,14 +83,13 @@ const updateUser = async (req, res) => {
   }
 
   console.log(update)
-try{
-  const oldDocument = await User.updateOne(filter, update)
-  //res.status(StatusCodes.OK).json({ oldDocument })
-  res.send({msg: 'Updated'});
-}catch (e){
-  res.send({msg: 'Updated Failed'});
-}
-  
+  try {
+    const oldDocument = await User.updateOne(filter, update)
+    //res.status(StatusCodes.OK).json({ oldDocument })
+    res.send({ msg: 'Updated' })
+  } catch (e) {
+    res.send({ msg: 'Updated Failed' })
+  }
 }
 
 //! DELETE USER BY ID
@@ -103,16 +100,14 @@ const deleteUserById = async (req, res) => {
 
 //! DELETE USERS
 const deleteUsers = async (req, res) => {
-  try{
+  try {
     const arr = req.params.ids.split(',')
     const Document = await User.deleteMany({ _id: { $in: arr } })
-  //res.status(StatusCodes.OK).json(Document)
-    res.send({msg: 'Delete Successfull'});
-
-  }catch(e){
-    res.send({msg: e});
+    //res.status(StatusCodes.OK).json(Document)
+    res.send({ msg: 'Delete Successfull' })
+  } catch (e) {
+    res.send({ msg: e })
   }
-  
 }
 
 //! UPDATE USER PROFILE IMAGE
