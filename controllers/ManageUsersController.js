@@ -40,7 +40,22 @@ const updateUser = async (req, res) => {
   const { name, role } = req.body
   const filter = { _id: req.params.id }
 
+  //backend validation
   const check = await User.findOne(filter)
+
+  const Arole="admin"
+  if(role==Arole){
+    throw new CustomError.UnauthenticatedError('Admin  Cannot Be changed')
+  }
+  
+  if (name.length<=3) {
+    console.log("namelength",name.length)
+    throw new CustomError.UnauthenticatedError('User Name should be more than 3 chracters No change ')
+  }
+  if (name.length>=50) {
+    
+    throw new CustomError.UnauthenticatedError('User Name cannot be more than 50 chracters ')
+  }
 
   if (name == check.name && role == check.role) {
     throw new CustomError.UnauthenticatedError('Not Updated')

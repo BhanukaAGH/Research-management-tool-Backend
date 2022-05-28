@@ -36,31 +36,46 @@ const add = async (req, res) => {
   //add more criteria
   const { criteria, allocatedMark } = req.body
 
+  if(!criteria || !allocatedMark){
+    throw new CustomError.UnauthenticatedError('Please Provide all Values ')
+  }
   const filter = { _id: req.params.id }
-  const update = await markScheme.findByIdAndUpdate(
-    filter,
-    {
-      $push: {
-        markScheme: { criteria: criteria, allocatedMark: allocatedMark },
+  try {
+    const update = await markScheme.findByIdAndUpdate(
+      filter,
+      {
+        $push: {
+          markScheme: { criteria: criteria, allocatedMark: allocatedMark },
+        },
       },
-    },
-    { safe: true, upsert: true, new: true }
-  )
+      { safe: true, upsert: true, new: true }
+    )
+  
+    res.send({msg: 'Crieteria & Marks Added'});
+    
+  } catch (error) {
+    res.send({msg: 'Error in Adding Crieteria & Marks'});
+  }
 
-  res.json(update)
+  
+  
 }
 const remove = async (req, res) => {
   //remove criteria method
   const filter = { _id: req.params.id }
 
   const objID = req.body
-
+try {
   const update = await markScheme.findByIdAndUpdate(
     filter,
     { $pull: { markScheme: { _id: objID } } },
     { safe: true, multi: false }
   )
-  res.json(update)
+  res.send({msg: 'Criteria Removed'});
+  
+} catch (error) {
+  res.send({msg: 'Error In removing'});
+}
 }
 
 const getAll = async (req, res) => {
@@ -75,8 +90,13 @@ const getAll = async (req, res) => {
 }
 const del = async (req, res) => {
   //delete making scheme
-
+try {
   const Document = await markScheme.deleteOne({ _id: req.params.id })
+  res.send({msg: 'MarkScheme Deleted successfully'});
+} catch (error) {
+  res.send({msg: "error in deleting MarkScheme"});
+}
+  
 
   if (Document.acknowledged) {
     console.log('Delete successfull')

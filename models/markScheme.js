@@ -20,7 +20,7 @@ const MarkSchemeSchema = mongoose.Schema(
           default: 'empty',
         },
         allocatedMark: {
-          type: Number,
+          type: [Number,"Mark Should be a integer"],
           default: 0,
         },
       },
