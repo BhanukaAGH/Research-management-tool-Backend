@@ -7,6 +7,10 @@ const app = express()
 // rest of the packages
 const morgan = require('morgan')
 const cors = require('cors')
+const rateLimiter = require('express-rate-limit')
+const helmet = require('helmet')
+const xss = require('xss-clean')
+const mongoSanitize = require('express-mongo-sanitize')
 const cloudinary = require('cloudinary').v2
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -31,7 +35,17 @@ const submissionRouter = require('./routes/submissionRoutes')
 const notFoundMiddleware = require('./middleware/not-found.js')
 const errorHandlerMiddleware = require('./middleware/error-handler.js')
 
-app.use(cors())
+app.set('trust proxy', 1)
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+  })
+) // limit request from each ip address
+app.use(helmet()) // set security related http headers
+app.use(cors()) // allow cross origin requests
+app.use(xss()) // sanitize user inputs
+app.use(mongoSanitize()) // protect against MongoDB injection
 app.use(morgan('tiny'))
 app.use(express.json())
 
