@@ -49,6 +49,10 @@ app.use(mongoSanitize()) // protect against MongoDB injection
 app.use(morgan('tiny'))
 app.use(express.json())
 
+app.get('/', (req, res) => {
+  res.send('<center><h1>Research Management Tool Backend</h1></center>')
+})
+
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/student', StudentRouter)
 app.use('/api/v1/users', userRouter)
