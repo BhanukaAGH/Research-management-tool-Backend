@@ -1,8 +1,6 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
-const cloudinary = require('cloudinary').v2
-const fs = require('fs')
 const ShortUniqueId = require('short-unique-id')
 const uid = new ShortUniqueId({
   length: 8,
@@ -42,6 +40,26 @@ const updateUser = async (req, res) => {
   const { name, role } = req.body
   const filter = { _id: req.params.id }
 
+  //backend validation
+  const check = await User.findOne(filter)
+
+  const Arole="admin"
+  if(role==Arole){
+    throw new CustomError.UnauthenticatedError('Admin  Cannot Be changed')
+  }
+  
+  if (name.length<=3) {
+    console.log("namelength",name.length)
+    throw new CustomError.UnauthenticatedError('User Name should be more than 3 chracters No change ')
+  }
+  if (name.length>=50) {
+    
+    throw new CustomError.UnauthenticatedError('User Name cannot be more than 50 chracters ')
+  }
+
+  if (name == check.name && role == check.role) {
+    throw new CustomError.UnauthenticatedError('Not Updated')
+  }
   const user = await User.findOne(filter)
   var regNo
   var email
@@ -80,9 +98,13 @@ const updateUser = async (req, res) => {
   }
 
   console.log(update)
-
-  const oldDocument = await User.updateOne(filter, update)
-  res.status(StatusCodes.OK).json({ oldDocument })
+  try {
+    const oldDocument = await User.updateOne(filter, update)
+    //res.status(StatusCodes.OK).json({ oldDocument })
+    res.send({ msg: 'Updated' })
+  } catch (e) {
+    res.send({ msg: 'Updated Failed' })
+  }
 }
 
 //! DELETE USER BY ID
@@ -93,9 +115,14 @@ const deleteUserById = async (req, res) => {
 
 //! DELETE USERS
 const deleteUsers = async (req, res) => {
-  const arr = req.params.ids.split(',')
-  const Document = await User.deleteMany({ _id: { $in: arr } })
-  res.status(StatusCodes.OK).json(Document)
+  try {
+    const arr = req.params.ids.split(',')
+    const Document = await User.deleteMany({ _id: { $in: arr } })
+    //res.status(StatusCodes.OK).json(Document)
+    res.send({ msg: 'Delete Successfull' })
+  } catch (e) {
+    res.send({ msg: e })
+  }
 }
 
 //! UPDATE USER PROFILE IMAGE
@@ -114,6 +141,28 @@ const updateProfileImage = async (req, res) => {
   res.status(StatusCodes.OK).json(user)
 }
 
+//! GET ALL SUPERVISORS
+const getAllSupervisors = async (req, res) => {
+  const supervisors = await User.find({ role: 'supervisor' }).select(
+    '-password -email -regNo -photoUrl'
+  )
+  if (!supervisors) {
+    throw new CustomError.BadRequestError('No Supervisors In the DB')
+  }
+  res.status(StatusCodes.OK).json(supervisors)
+}
+
+//! GET ALL CO-SUPERVISORS
+const getAllCoSupervisors = async (req, res) => {
+  const coSupervisors = await User.find({ role: 'co_supervisor' }).select(
+    '-password -email -regNo -photoUrl'
+  )
+  if (!coSupervisors) {
+    throw new CustomError.BadRequestError('No Co-Supervisors In the DB')
+  }
+  res.status(StatusCodes.OK).json(coSupervisors)
+}
+
 module.exports = {
   getAllUsers,
   getSingleUserById,
@@ -122,4 +171,7 @@ module.exports = {
   deleteUserById,
   deleteUsers,
   updateProfileImage,
+  getAllSupervisors,
+  getAllCoSupervisors,
 }
+

@@ -13,6 +13,8 @@ const {
   getTopic,
   updateTopic,
   deleteTopic,
+  requestSupervisor,
+  requestCoSupervisor,
 } = require('../controllers/topicController')
 
 router
@@ -55,6 +57,20 @@ router
       ),
     ],
     deleteTopic
+  )
+
+router
+  .route('/request/supervisor')
+  .post(
+    [authenticateUser, authorizePermissions('admin', 'student')],
+    requestSupervisor
+  )
+
+router
+  .route('/request/co-supervisor')
+  .post(
+    [authenticateUser, authorizePermissions('admin', 'student')],
+    requestCoSupervisor
   )
 
 module.exports = router

@@ -4,9 +4,9 @@ const CustomError = require('../errors')
 const Create = async (req, res) => {//
     var { name, dueDate, type, description } = req.body
 
-    if (!name || !dueDate || !type) {
-        throw new CustomError.BadRequestError('Please provide all values')
-      }
+    // if (!name || !dueDate || !type) {
+    //     throw new CustomError.BadRequestError('Please provide all valuesss')
+    //   }
 
     
     const submission=await SubmissionTypes.findOne({name});
@@ -19,20 +19,28 @@ const Create = async (req, res) => {//
       console.log(subtype);
      if(subtype){
          console.log("subtype created successfully");
+         res.send({msg: 'Submission Type created successfully'});
+         
      }else{
         console.log("failed to create");
+        res.send({message: 'Failed to create'});
+        
      }
    
-        res.json(subtype) 
+        res.json(subtype)
   }
   const Remove = async (req, res) => { //remove submission type  
 
     const Document = await SubmissionTypes.deleteOne({_id: req.params.id});
-    res.json({Document})
+    
     
     if (Document.acknowledged){
         console.log("Delete successfull");
-    }else{console.log("Delete Failed");}
+        res.send({msg: 'Delete Successfull'});
+    }else{
+      console.log("Delete Failed");
+      res.send({msg: 'Delete Failed'});
+    }
   
 
     
