@@ -92,6 +92,7 @@ const requestSupervisor = async (req, res) => {
   }
 
   topic.supervisor.id = supervisorId
+  topic.supervisor.status = 'pending'
   await topic.save()
   res.status(StatusCodes.OK).json({ topic })
 }
@@ -112,6 +113,7 @@ const requestCoSupervisor = async (req, res) => {
   }
 
   topic.coSupervisor.id = coSupervisorId
+  topic.coSupervisor.status = 'pending'
   await topic.save()
   res.status(StatusCodes.OK).json({ topic })
 }
