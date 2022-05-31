@@ -101,15 +101,27 @@ const getOneGroup = async (req, res) => {
 }
 const Allocate = async (req, res) => {
   //patch to allocate panel members
-
+  const { Name, MemberID } = req.body
+  if(!Name || !MemberID){
+    throw new CustomError.UnauthenticatedError('Please Provide all Values ')
+  }
+  const filter = { _id: req.params.id }
   try {
-    const filter = { _id: req.params.id }
-    const oldDocument = await StudentGroup.updateOne(filter, req.body)
-
-    res.json(oldDocument)
+    const update = await StudentGroup.findByIdAndUpdate(
+      filter,
+      {
+        $push: {
+          Panelmember: { Name: Name, MemberID: MemberID },
+        },
+      },
+      { safe: true, upsert: true, new: true }
+    )
+  
+    res.send({msg: 'Allocated'});
+    
   } catch (error) {
-    console.log('error in updating', error)
-    res.status(500)
+    console.log(error);
+    res.send({msg: 'Error in Allocating'});
   }
 }
 
@@ -119,6 +131,26 @@ const getStudentGroup = async (req, res) => {
 
   res.status(StatusCodes.OK).json(group)
 }
+const UnAllocate = async (req, res) => {
+  
+  try {
+    const filter = { _id: req.params.id }
+    const update = await StudentGroup.findByIdAndUpdate(
+      filter,
+      {
+        $set: {
+          Panelmember:[],
+        },
+      },
+      { safe: true, upsert: true, new: true }
+    )
+    res.send({msg: 'Un-Allocated'});
+    
+  } catch (error) {
+    console.log(error)
+    res.send({msg: 'Error in Deallocating'});
+  }
+}
 
 module.exports = {
   groupRegister,
@@ -126,4 +158,5 @@ module.exports = {
   getStudentGroup,
   getOneGroup,
   Allocate,
+  UnAllocate
 }
