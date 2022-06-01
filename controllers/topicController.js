@@ -50,6 +50,8 @@ const updateTopic = async (req, res) => {
     data = { supervisor: { id, status } }
   } else if (req.user.role === 'co_supervisor') {
     data = { coSupervisor: { id, status } }
+  } else if (req.user.role === 'student') {
+    data = req.body
   }
 
   const topic = await Topic.findOneAndUpdate({ _id: topicId }, data, {
