@@ -31,7 +31,7 @@ const groupRegister = async (req, res) => {
   )
   if (!member2) {
     throw new CustomError.BadRequestError(
-      'Leader registration number is invalid'
+      'Member 2 registration number is invalid'
     )
   }
   member2.groupId = groupID
@@ -41,7 +41,7 @@ const groupRegister = async (req, res) => {
   )
   if (!member3) {
     throw new CustomError.BadRequestError(
-      'Leader registration number is invalid'
+      'Member 3 registration number is invalid'
     )
   }
   member3.groupId = groupID
@@ -51,7 +51,7 @@ const groupRegister = async (req, res) => {
   )
   if (!member4) {
     throw new CustomError.BadRequestError(
-      'Leader registration number is invalid'
+      'Member 4 registration number is invalid'
     )
   }
   member4.groupId = groupID
