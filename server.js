@@ -29,6 +29,7 @@ const adminsubRoute = require('./routes/adminSubRoutes') //admin subtype routes
 const adminmarkscheme = require('./routes/adminMarkSchemeRoutes') //admin marchscheme router
 const evaluationRouter = require('./routes/evaluationRoutes')
 const submissionRouter = require('./routes/submissionRoutes')
+const panelRouter = require('./routes/panelRouter')
 
 // middleware
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -53,6 +54,7 @@ app.use('/api/v1/evaluate', evaluationRouter)
 app.use('/api/v1/submission', submissionRouter)
 app.use('/api/v1/subtype', adminsubRoute)
 app.use('/api/v1/markscheme', adminmarkscheme)
+app.use('/api/v1/panel', panelRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
