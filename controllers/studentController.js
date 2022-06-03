@@ -9,7 +9,7 @@ const groupRegister = async (req, res) => {
 
   if (!leaderId || !member2Id || !member3Id || !member4Id) {
     throw new CustomError.BadRequestError(
-      'Please enter all group members registration numbers'
+      'Please enter all group members Student IDs'
     )
   }
 
@@ -20,9 +20,7 @@ const groupRegister = async (req, res) => {
     'name email regNo'
   )
   if (!leader) {
-    throw new CustomError.BadRequestError(
-      'Leader registration number is invalid'
-    )
+    throw new CustomError.BadRequestError('Leader Student ID is invalid')
   }
   leader.groupId = groupID
 
@@ -30,9 +28,7 @@ const groupRegister = async (req, res) => {
     'name email regNo'
   )
   if (!member2) {
-    throw new CustomError.BadRequestError(
-      'Member 2 registration number is invalid'
-    )
+    throw new CustomError.BadRequestError('Member 2 Student ID is invalid')
   }
   member2.groupId = groupID
 
@@ -40,9 +36,7 @@ const groupRegister = async (req, res) => {
     'name email regNo'
   )
   if (!member3) {
-    throw new CustomError.BadRequestError(
-      'Member 3 registration number is invalid'
-    )
+    throw new CustomError.BadRequestError('Member 3 Student ID is invalid')
   }
   member3.groupId = groupID
 
@@ -50,9 +44,7 @@ const groupRegister = async (req, res) => {
     'name email regNo'
   )
   if (!member4) {
-    throw new CustomError.BadRequestError(
-      'Member 4 registration number is invalid'
-    )
+    throw new CustomError.BadRequestError('Member 4 Student ID is invalid')
   }
   member4.groupId = groupID
 
