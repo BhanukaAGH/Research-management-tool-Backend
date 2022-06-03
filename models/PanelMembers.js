@@ -17,6 +17,21 @@ const PanelTopicSchema = new mongoose.Schema({
     ref: "Topic",
   },
 
+  panelMember: [
+    {
+      Name: {
+        type: String,
+        trim: true,
+        default: "Not Allocated",
+      },
+      MemberID: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        trim: true,
+      },
+    },
+  ],
+
   dateAppordeOrReject: {
     type: Date,
     default: Date.now(),

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 // const validator = require('validator')
 
@@ -67,10 +67,20 @@ const StudentGroupSchema = mongoose.Schema({
       required: true,
     },
   },
-  Panelmember: {
-    type: String,
-    default: 'Not Allocated',
-  },
-})
+  Panelmember: [
+    {
+      Name: {
+        type: String,
+        trim: true,
+        default: "Not Allocated",
+      },
+      MemberID: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        trim: true,
+      },
+    },
+  ],
+});
 
-module.exports = mongoose.model('StudentGroup', StudentGroupSchema)
+module.exports = mongoose.model("StudentGroup", StudentGroupSchema);

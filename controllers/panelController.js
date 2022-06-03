@@ -39,16 +39,17 @@ exports.getSubmissionDocument = async (req, res) => {
     const checkGroup = await StudentGroup.findOne({ groupID: req.params.id });
 
     const { leader, member2, member3, member4 } = checkGroup;
+
     const mails = [leader.email, member2.email, member3.email, member4.email];
     const documents = await User.find({ email: { $in: mails } });
 
     const arr = documents.map((document) => document._id);
 
-    const submittedDocument = await Submission.findOne({
+    const submittedDocument = await Submission.find({
       submitUserId: { $in: arr },
     });
 
-    if (submittedDocument) {
+    if (!(submittedDocument.length === 0)) {
       res.json({
         status: "success",
         document: submittedDocument,
@@ -72,6 +73,7 @@ exports.getSubmissionDocument = async (req, res) => {
 exports.getGropudetails = async (req, res) => {
   try {
     const groupDetails = await StudentGroup.find({ groupID: req.params.id });
+
     res.json({
       status: "success",
       groupDetails,
@@ -130,14 +132,23 @@ exports.createTopicAccept = async (req, res) => {
 //get the topic status
 exports.getTopicStatus = async (req, res) => {
   try {
-    const topicStatus = await PanelTopic.findOne({
+    const topicInfo = await PanelTopic.findOne({
       groupID: req.params.id,
     });
 
-    res.json({
-      status: "success",
-      topicStatus,
-    });
+    if (topicInfo) {
+      res.json({
+        status: "success",
+        topicInfo,
+      });
+      return;
+    } else {
+      res.json({
+        status: "success",
+        topicInfo: {},
+      });
+      return;
+    }
   } catch (error) {
     res.json({
       status: "failed",
