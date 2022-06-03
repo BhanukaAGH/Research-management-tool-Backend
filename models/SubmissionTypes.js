@@ -6,7 +6,7 @@ const SubTypeSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide name'],
       minlength: [3, 'Submission Name Should Have more than 4 character'],
-      maxlength: [10, 'Submission Name Should Have less than 10 character'],
+      maxlength: [50, 'Submission Name Should Have less than 50 character'],
     },
     dueDate: {
       type: String,
@@ -19,7 +19,7 @@ const SubTypeSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxlength: [50, 'description length cant exceed 50 characters'],
+      maxlength: [100, 'description length cant exceed 100 characters'],
     },
     submitUsers: [
       {
@@ -34,3 +34,4 @@ const SubTypeSchema = new mongoose.Schema(
 )
 
 module.exports = mongoose.model('SubmissionTypes', SubTypeSchema)
+
