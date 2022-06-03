@@ -65,24 +65,20 @@ const StudentGroupSchema = mongoose.Schema({
       required: true,
     },
   },
-  Panelmember:[
+  Panelmember: [
     {
-      Name:{
+      Name: {
         type: String,
         trim: true,
         default: 'Not Allocated',
       },
-      MemberID:{
+      MemberID: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         trim: true,
-      }
-    }
-  ]
-  // Panelmember: {
-  //   type: String,
-  //   default: 'Not Allocated',
-  // },
+      },
+    },
+  ],
 })
 
 module.exports = mongoose.model('StudentGroup', StudentGroupSchema)
