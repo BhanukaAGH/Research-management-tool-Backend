@@ -20,6 +20,7 @@ const submitDocument = async (req, res) => {
     submissionId,
     submissionName,
     submissionDescription,
+    submissionType,
     submitFileName,
     submitDocumentUrl,
   } = req.body
@@ -28,6 +29,7 @@ const submitDocument = async (req, res) => {
     !submissionId ||
     !submissionName ||
     !submissionDescription ||
+    !submissionType ||
     !submitFileName ||
     !submitDocumentUrl
   ) {
@@ -52,12 +54,13 @@ const submitDocument = async (req, res) => {
     submissionId,
     submissionName,
     submissionDescription,
+    submissionType,
     submitFileName,
     submitDocumentUrl,
   }
-  const submissionType = await SubmissionTypes.findOne({ _id: submissionId })
-  submissionType.submitUsers.unshift({ user: req.user.userId })
-  await submissionType.save()
+  const submissionTypes = await SubmissionTypes.findOne({ _id: submissionId })
+  submissionTypes.submitUsers.unshift({ user: req.user.userId })
+  await submissionTypes.save()
 
   const submission = await Submission.create(submissionData)
   res.status(StatusCodes.CREATED).json(submission)

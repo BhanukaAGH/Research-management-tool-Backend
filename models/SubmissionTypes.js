@@ -14,8 +14,8 @@ const SubTypeSchema = new mongoose.Schema(
     },
     type: {
       type: String,
+      enum: ['document', 'presentation'],
       required: [true, 'Please provide Type'],
-      maxlength: 50,
     },
     description: {
       type: String,
@@ -34,4 +34,3 @@ const SubTypeSchema = new mongoose.Schema(
 )
 
 module.exports = mongoose.model('SubmissionTypes', SubTypeSchema)
-

@@ -20,6 +20,11 @@ const SubmissionSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide submission description'],
     },
+    submissionType: {
+      type: String,
+      enum: ['document', 'presentation'],
+      required: [true, 'Please provide submission type'],
+    },
     submitFileName: {
       type: String,
       required: true,
