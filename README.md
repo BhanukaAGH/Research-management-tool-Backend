@@ -5,7 +5,7 @@
 ### Deployed Links
 
 Frontend - [https://research-management-tool.netlify.app](https://research-management-tool.netlify.app) \
-Backend - [https://research-managment-tool.herokuapp.com](https://research-managment-tool.herokuapp.com)
+Backend - [https://research-managment-tool.cyclic.app](https://research-managment-tool.cyclic.app)
 
 ### Project Description
 
